@@ -1,4 +1,4 @@
-# Annotations Handler
+# Background Check
 
 Gives information about any colombian person and supports the following providers:
 
@@ -11,23 +11,37 @@ The basic person properties as name, middle name, last name needed because *Siri
 #### Usage
 
 ```go
-handler := siri.NewQuery(siri.Delay(time.Second * 4))
-annotations, err := handler.Pull(&siri.PullInput{
-    FirstName:      "John",
-    MiddleName:     "Alexander",
-    LastName:       "Doe",
-    SecondSurname:  "Bell",
-    DocumentType:   siri.DNI,
-    DocumentNumber: "52644444",
-})
+package main
 
-if err != nil {
-    log.Fatal(err)
+import (
+    "background-check-co/siri"
+    "encoding/json"
+    "time"
+    "log"
+    "fmt"
+)
+
+func main() {
+    handler := siri.NewQuery(siri.Delay(time.Second * 4))
+    annotations, err := handler.Pull(&siri.PullInput{
+        FirstName:      "John",
+        MiddleName:     "Alexander",
+        LastName:       "Doe",
+        SecondSurname:  "Bell",
+        DocumentType:   siri.DNI,
+        DocumentNumber: "52644444",
+    })
+
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    b, _ := json.Marshal(annotations)
+    fmt.Print(string(b))
 }
-
-b, _ := json.Marshal(annotations)
-fmt.Print(string(b))
 ```
 
 #### TODO
-- Add first name question
+
+- [ ] Add an easy way to check get the user's name from the document number.
+- [ ] Add police background check.
